@@ -37,10 +37,10 @@ void put_saldo(enum Permission perm) {
 
 void main() {
     // set flag dengan operasi bitwise or
-    enum Permission userPermission = WRITE;
+    // enum Permission userPermission = WRITE;
     // enum Permission userPermission = READ | WRITE;
     // enum Permission userPermission = READ | PUT;
-    // enum Permission userPermission = READ | WRITE | PUT;
+    enum Permission userPermission = READ | WRITE | PUT;
     char no;
     
     printf("1. cek saldo\n2. add saldo\n3. put saldo\n");
