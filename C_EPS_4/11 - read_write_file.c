@@ -7,13 +7,13 @@ FILE *fptr;
 
 void read(char *file) {
     fptr = fopen(file, "r");
-    printf("[*] open\n");
+    printf("|____ \t\topen\t\t ____|\n");
 
     while(fgets(buff, sizeof(buff), fptr)) {
         printf("%s", buff);
     }
 
-    printf("[*] close");
+    printf("|____ \t\tclose\t\t ____|");
     fclose(fptr);
 }
 
@@ -64,7 +64,10 @@ int main() {
 
     while (1) {
         printf("\n\n[+] NO > ");
+        // fgets(input, sizeof(input), stdin);
         scanf(" %c", &input);
+
+        while (getchar() != '\n');  // menghilangkan newline
 
         if (input == '1') {
             read(file);
