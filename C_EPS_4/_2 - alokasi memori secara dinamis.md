@@ -150,4 +150,119 @@ void main(){
 Pada contoh ini, kita menggunakan fungsi malloc() untuk mengalokasikan memori pada variabel *player. Ukuran alokasi memorinya akan mengikuti ukuran dari struct Player, karena kita menggunakan fungsi sizeof() di sana.
 
 ## Mengenal Fungsi calloc()
-- 
+- Fungsi calloc() sama seperti fungsi malloc(), sama-sama berfungsi untuk mengalokasikan memori pada Heap.
+- Bedanya, calloc() menggunakan beberapa blok memori untuk satu variabel, sedangkan malloc() hanya mengalokasikan satu blok dengan ukuran tertentu untuk satu variabel.
+  ![alt text](docs/images/image-6.png)
+- Nilai 100 dan 123 adalah satu blok yang ukurannya sudah ditentukan oleh malloc(). Sedangkan teks “Petani Kode” adalah dua blok memori yang dibuat dengan calloc().
+- Performa fungsi calloc() lebih lambat dibandingkan malloc(), karena ia menggunakan banyak blok memori.
+- Cara menggunakan fungsi calloc(), sama seperti malloc() hanya saja beda parameter yang diberikan.
+  ```c
+  calloc(jumlah_blok, ukuran);
+  ```
+  - jumlah_blok adalah jumlah blok yang ingin dibuat (integer);
+  - ukuran adalah ukuran tiap blok dalam satuan byte (integer).
+- Fungsi calloc() juga menghasilkan sebuah pointer, karena itu kita harus menyimpannya dalam variabel pointer.
+  ```c
+  char *name = calloc(2, 32);
+  ```
+
+### contoh
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(){
+    struct Product {
+        char *name;
+        unsigned int price;
+        unsigned int stock;
+        float weight;
+    };
+
+    // menggunakan calloc
+    struct Product *buku = calloc(2, sizeof(struct Product));
+
+    buku->name = "Pemrograman C untuk Pemula";
+    buku->price = 98000;
+    buku->stock = 5;
+    buku->weight = 1.2;
+
+    printf("## DETAIL PRODUK ##\n");
+    printf("name : %s\n", buku->name);
+    printf("harga: %d\n", buku->price);
+    printf("stok : %d\n", buku->stock);
+    printf("berat: %.2f kg\n", buku->weight);
+}
+```
+
+Pada contoh ini, kita menggunakan fungsi calloc() untuk mengalokasikan memori variabel buku sebanyak 2 blok dengan ukuran mengikuti ukuran struct Product.
+
+## Mengenal Fungsi realloc()
+- Fungsi realloc() adalah fungsi untuk mengalokasikan ulang memori dari variabel yang sudah dialokasikan dengan fungsi malloc() dan calloc().
+- Ini biasanya kita butuhkan saat kita ingin menambah atau mengurangi ukuran alokasi memori pada suatu variabel.
+- Fungsi realloc() memiliki dua parameter yang harus diberikan:
+  ```c
+  realloc(*pointer, ukuran_baru);
+  ```
+- Penjelasan:
+  - *pointer adalah variabel pointer yang ingin kita alokasikan ulang;
+  - ukuran_baru adalah ukuran alokasi memori untuk mengalokasikan ulang variabel tersebut.
+- Contoh:
+  ```c
+  // mengalokasikan 16 byte
+  char *name = malloc(sizeof(char) * 16);
+
+  // mengalokasikan ulang menjadi 32 byte
+  name = realloc(name, sizeof(char) * 32);
+  ```
+- Ukuran 1 karakter untuk tipe data char adalah 1 byte. Pada contoh ini kita mengalokasikan memori untuk 16 karakter atau 16 byte. Lalu mengalokasikan ulang dengan realloc() menjadi 32 karakter.
+- Oya, fungsi realloc() juga akan mengubah alamat memori dari variabel ke alamat yang baru.
+
+### contoh
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(){
+   /* Initial memory allocation */
+   char *str = malloc(15);
+   strcpy(str, "petanikode");
+   printf("String = %s,  Address = %x\n", str, str);
+
+   /* Reallocating memory */
+   str = realloc(str, 25);
+   strcat(str, ".com");
+   printf("String = %s,  Address = %x\n", str, str);
+}
+```
+
+## Mengenal Fungsi free()
+- Fungsi free() adalah fungsi untuk menghapus alokasi memori yang sudah dibuat oleh fungsi malloc(), calloc(), dan realloc().
+- Fungsi free(), punya satu parameter yakni variabel yang ingin dihapus alokasinya.
+  ```c
+  free(nama_variabel);
+  ```
+
+### contoh
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(){
+   /* Initial memory allocation */
+   char *str = malloc(15);
+   strcpy(str, "petanikode");
+   printf("String = %s,  Address = %x\n", str, str);
+
+   /* Reallocating memory */
+   str = realloc(str, 25);
+   strcat(str, ".com");
+   printf("String = %s,  Address = %x\n", str, str);
+
+   free(str);
+
+   printf("String = %s,  Address = %x\n", str, str);
+}
+```
+
+- Isi variabel str akan kosong, karena alokasi memorinya sudah kita hapus. Namun, dia tetap melakukan pointing pada alamat memori di Heap.
