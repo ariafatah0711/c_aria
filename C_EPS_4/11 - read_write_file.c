@@ -7,13 +7,13 @@ FILE *fptr;
 
 void read(char *file) {
     fptr = fopen(file, "r");
-    printf("|____ \t\topen\t\t ____|\n");
+    printf("|---- \t\topen\t\t ----|\n");
 
     while(fgets(buff, sizeof(buff), fptr)) {
         printf("%s", buff);
     }
 
-    printf("|____ \t\tclose\t\t ____|");
+    printf("|---- \t\tclose\t\t ----|");
     fclose(fptr);
 }
 
