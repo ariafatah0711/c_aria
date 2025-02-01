@@ -1,0 +1,1 @@
+int hitung_umur(int tahun_lahir, int tahun_sekarang);
